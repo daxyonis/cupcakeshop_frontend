@@ -13,8 +13,9 @@
                 v-for="product in products"
                 v-bind:key="product.id">
                 <nuxt-link :to="`/products/${product.id}`">
-                  <img :src="storeUrl + product.image.url" class="card-img-top" :alt="product.alt">
-                  <div class="card-body">
+                  <b-img :src="storeUrl + product.image.url" rounded="circle" alt="Circle image" class="card-img-top"></b-img>
+                  <!-- <img :src="storeUrl + product.image.url" class="card-img-top" :alt="product.alt"> -->
+                  <div class="card-body text-center">
                     <h5 class="card-title">{{product.title}}</h5>              
                     <p class="card-text">
                       {{product.description}}
@@ -58,5 +59,8 @@ export default {
 }
 a {
   text-decoration-line: none;
+}
+.card{
+  border-color: transparent;
 }
 </style>

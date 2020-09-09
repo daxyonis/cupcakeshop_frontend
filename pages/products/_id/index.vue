@@ -1,10 +1,11 @@
 <template>
-<b-card no-body class="overflow-hidden mt-4">
+<b-card no-body class="overflow-hidden mt-4 ml-4" style="max-width:540px;">
     <b-row no-gutters>
-      <b-col md="3" lg="2">
-        <b-card-img :src="product.image.url" alt="Image" class="rounded-0"></b-card-img>
+      <b-col md="6" lg="6">
+          <b-img :src="product.image.url" rounded="circle" alt="Circle image" class="card-img-left"></b-img>
+        <!-- <b-card-img :src="product.image.url" alt="Image" class="rounded-3"></b-card-img>         -->
       </b-col>
-      <b-col md="9" lg="10">
+      <b-col md="6" lg="6">
         <b-card-body :title="product.title">
           <b-card-text>
             {{product.description}}
@@ -29,19 +30,28 @@
 <script>
 export default {    
 
-    data(){
-        
-    },
-
-    async asyncData( context ) {
-        console.log(`${context.env.apiUrl}/products/${context.params.id}`);
+    async asyncData( context ) {        
         const res = await fetch(`${context.env.apiUrl}/products/${context.params.id}`);
         let payload = await res.json();
-        payload.image.url = context.env.apiUrl + payload.image.url;
-        console.log(payload);
+        payload.image.url = context.env.apiUrl + payload.image.url;        
         return {
             product : payload,
             storeUrl: context.env.apiUrl
+        }
+    },
+
+    computed: {
+        customFields(){            
+            if(this.product["Custom_field"].length > 0){
+                return this.product["Custom_field"]
+                    .map(({title, required, options}) => ({name: title, required, options}))
+                    .map((x, index) => Object.entries(x)
+                    .map(([key, value]) => ({[`data-item-custom${index + 1}-${key.toString().toLowerCase()}`]: value})))
+                    .reduce((acc, curr) => acc.concat(curr), [])
+                    .reduce((acc, curr) => ({...acc, ...curr}))
+            } else {
+                return null;
+            }        
         }
     }
     
@@ -51,6 +61,10 @@ export default {
 <style scoped>
 img {
     max-height: 200px;    
+}
+
+.card {
+    border-color: transparent;
 }
 
 </style>
