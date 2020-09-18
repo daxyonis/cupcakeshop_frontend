@@ -8,7 +8,9 @@
       <b-col md="6" lg="6">
         <b-card-body :title="product.title">
           <b-card-text>
-            {{product.description}}
+            {{product.description}}       
+            <br/>     
+            <span class="text-primary pt-2">{{product.price.toFixed(2)}}$ CAD</span>
           </b-card-text>
           <button 
             class="snipcart-add-item bg-white border border-gray-200 d hover:shadow-lg text-gray-700 font-semibold py-2 px-4 rounded shadow"
